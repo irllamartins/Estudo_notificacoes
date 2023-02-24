@@ -1,23 +1,22 @@
-import logo from './logo.svg';
+import React from 'react'
 import './App.css';
+import app from './firebase'
+import { getMessaging } from "firebase/messaging";
 
 function App() {
-  return (
+  React.useEffect(()=>{
+   const messaging = getMessaging(app);
+    messaging.requestPermission().then(()=>{
+      return messaging.getToken();
+    }).then((data)=>{
+      console.log("token",data)
+    })
+  })
+
+  return ( 
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     
+        <h1>Estudo de aplicação web notificações</h1>
     </div>
   );
 }
