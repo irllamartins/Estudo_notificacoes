@@ -1,22 +1,36 @@
-import React from 'react'
+import { useEffect } from 'react'
 import './App.css';
-import app from './firebase'
-import { getMessaging } from "firebase/messaging";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import messaging from './firebase'
 
 function App() {
-  React.useEffect(()=>{
-   const messaging = getMessaging(app);
-    messaging.requestPermission().then(()=>{
-      return messaging.getToken();
-    }).then((data)=>{
-      console.log("token",data)
-    })
-  })
 
-  return ( 
+   async function requestPermission() {
+
+    console.log('Requesting permission...');
+    await Notification.requestPermission().then((permission) => {
+    if (permission === 'granted') {
+      //generate token
+      const token =  getToken(messaging,
+        {
+          vapidKey: 'BFOCGLD3ay_ujz7cXdx3ka9Wk30wQ9rOyn0Jf93nj_HfyvbL15Dc33A1v-0_o_W730F79o6B-ZdanmxipdXpbxI'
+        })
+      console.log('Togen gen', token);
+    } else if (permission === 'denied') {
+      alert('No registration token available');
+
+    }
+  })
+   
+  }
+  useEffect(() => {
+    requestPermission()
+  }, [])
+
+  return (
     <div className="App">
-     
-        <h1>Estudo de aplicação web notificações</h1>
+
+      <h1>Estudo de aplicação web notificações</h1>
     </div>
   );
 }

@@ -18,5 +18,6 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-
-export default app;
+// Initialize Firebase Cloud Messaging and get a reference to the service
+const messaging = getMessaging(app);
+export default messaging;
